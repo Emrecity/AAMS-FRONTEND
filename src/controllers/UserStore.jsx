@@ -2,10 +2,11 @@ import axios from 'axios';
 import { create } from 'zustand';
 import { toast } from 'react-hot-toast';
 import {routes} from '../helpers/routes'
+import Swal from 'sweetalert2';
 
 
 export const useUserStore = create((set)=>({
-
+    data:[],
     isProcessing:false,
      async login(data){
         set({isProcessing:true})
@@ -47,5 +48,62 @@ export const useUserStore = create((set)=>({
                 localStorage.removeItem('id')
         window.location.replace(routes.LOGIN);
     },
+    
+    async createUser(data){
+        set({isProcessing:true})
+        await axios.post(`api/v1/user`,data)
+        .then((res)=>{
+            if(res.status === 200 || res.status === 201){
+               toast.success('User successfully created')
+            }
+            useUserStore.getState().getAllUsers()
+        }).catch((err)=>{
+            toast.error(`${err.message}`)
+        }).finally(()=>{
+            set({isProcessing:false})
+        })
+    },
+
+    async getAllUsers(){
+        set({isProcessing:true})
+        await axios.get(`api/v1/user`)
+        .then((res)=>{
+            if(res.status === 200 || res.status === 201){
+              const userdata = res?.data?.data
+              set({data:userdata})
+            }
+        }).catch((err)=>{
+            toast.error(`${err.message}`)
+        }).finally(()=>{
+            set({isProcessing:false})
+        })
+    },
+
+    async deleteUser(id){
+        try{
+            set({isProcessing:true})
+            const swalResponse = await Swal.fire({
+                title:'Are you sure ?',
+                text:'You will not be able to retrieve it back',
+                icon:'warning',
+                showDenyButton:true,
+                denyButtonColor:'#d33',
+                confirmButtonColor:'#5b0101',
+                confirmButtonText:'Yes',
+                denyButtonText:'No'
+            })
+            if (swalResponse.isConfirmed){
+                toast.loading('User is being deleted',{duration:100})
+                const Response = await axios.delete(`api/v1/user/${id}`)
+                if(Response?.status == 201 || Response.status === 200){
+                    toast.success('User is deleted successfully')
+                }
+                await useUserStore.getState().getAllUsers()
+            }
+            set({isProcessing:false})
+        }catch(err){
+            toast.error(err)
+        }
+     },
 
 }))

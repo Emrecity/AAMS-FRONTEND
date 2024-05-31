@@ -1,10 +1,15 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import Profile from './Profile'
 import Department from './Department'
 import User from './User'
+import {useUserStore} from '../../controllers/UserStore'
 
 const Setting = () => {
   const [page,setPage] = useState('profile')
+  const getUsers = useUserStore((state)=>state. getAllUsers)
+  useEffect(()=>{
+    getUsers()
+  },[page])
 
   return (
     <div className='bg-slate-200 p-5'>
