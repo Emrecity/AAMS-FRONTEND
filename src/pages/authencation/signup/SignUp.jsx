@@ -3,11 +3,13 @@ import { useForm } from 'react-hook-form'
 import { routes } from '../../../helpers/routes'
 import { useNavigate } from 'react-router-dom'
 import { useUserStore }  from '../../../controllers/UserStore'
+import { useDepartmentStore } from '../../../controllers/DepartmentStore'
 
 
 const SignUp = () => {
 
   const submit = useUserStore((state)=>state.createUser)
+  const department = useDepartmentStore((state)=>state.departmentData)
 
   const {register,handleSubmit} = useForm()
   const navigate = useNavigate()
@@ -63,9 +65,11 @@ const SignUp = () => {
           <div className='flex flex-col my-3 gap-y-2'>
             <label>Department</label>
             <select className='h-10 rounded-md' {...register('department')}>
-            <option value={' '}>Select Department</option>
-            <option value='mathematics'>Mathematics</option>
-            <option value='catering'>Catering</option>
+              {department?.map((dep)=>{
+                return(
+                  <option value={dep?.initials}>{dep?.name}</option>
+                )
+              })}
            </select>
           </div>
           <div className='flex flex-col my-3 gap-y-2'>

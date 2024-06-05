@@ -18,7 +18,6 @@ const ViewAuditForm = () => {
     getAllAudit()
     data
   },[toggle])
-  console.log(data)
 
 let number = 0
 
@@ -50,11 +49,11 @@ const [auditData,setAuditData] = useState('')
             </thead>
             <tbody>
                 {!isProcessing?
-                    data.map((dat)=>{
+                    data?.map((dat)=>{
                        
                         number = number+1
                         return(
-                        <tr key={dat._id}>
+                        <tr key={dat?._id}>
                             <td>{number}</td>
                             <td>{dat?.dateOfPurchase}</td>
                             <td>{dat?.nameAndDescription}</td>

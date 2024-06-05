@@ -30,6 +30,7 @@ const [requestdata,setRequestData] = useState({
    
   const {printPage:HandlePrint} = usePrint('myform')
   const {open:OpenModal,close:CloseModal} = useModalActions('edit_request_modal')
+  let number = 0
 
   return (
     <>
@@ -51,6 +52,7 @@ const [requestdata,setRequestData] = useState({
       <table id='myform'>
         <thead>
           <tr>
+            <th>S/N</th>
             <th>Name</th>
             <th>Description</th>
             <th>Quantity</th>
@@ -62,8 +64,10 @@ const [requestdata,setRequestData] = useState({
         <tbody>
           { !isProcessing ?
             data?.map((dat)=>{
+              number = number+1
               return(
                 <tr key={dat?._id}>
+                   <td>{number}</td>
                   <td>{dat?.name}</td>
                   <td>{dat?.description}</td>
                   <td>{dat?.quantity}</td>
