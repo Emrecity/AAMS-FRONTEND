@@ -40,6 +40,20 @@ export const useDepartmentStore = create((set)=>({
         })
     },
 
+    async updateDepartment(id,data){
+        set({isProcessing:true})
+        await axios.put(`api/v1/department/${id}`,data)
+        .then((res)=>{
+            if(res.status === 200 || res.status === 201){
+               toast.success('Department updated successfully')
+            }
+           useDepartmentStore.getState().getAllDepartment()
+        }).catch((err)=>{
+            toast.error(`${err.message}`)
+        }).finally(()=>{
+            set({isProcessing:false})
+        })
+    },
 
     async deleteDepartment(id){
         try{

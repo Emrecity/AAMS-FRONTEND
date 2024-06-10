@@ -5,6 +5,7 @@ import { useHodStore } from '../../controllers/HodStore'
 const AuditForm = () => {
     const {register,handleSubmit,formState:{errors,isDirty}} = useForm()
     const submit = useHodStore((state)=>state.createAudit)
+    const department = localStorage.getItem('department')
   return (
     <div>
     <form 
@@ -40,6 +41,7 @@ const AuditForm = () => {
             <label>User</label>
             <input type='text' className='text-[#5B0101]' {...register('user',{required:'enter user'})}/>
         </div>
+        <input type='text' value={department} className='hidden' {...register('department')}/>
         <div className='flex flex-col gap-x-2'>
             <label>Location</label>
             <input type='text' className='text-[#5B0101]' {...register('location',{required:'enter location'})}/>

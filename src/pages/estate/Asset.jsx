@@ -1,6 +1,39 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
+import {useForm} from 'react-hook-form'
+import { useEstateStore } from '../../controllers/EstateStore'
+import DeleteButton from '../../components/DeleteButton'
+import EditButton from '../../components/EditButton'
+import {useModalActions} from '../../components/ModalActions'
+import EditAssetModal from './EditAssetModal'
+import { useDepartmentStore } from '../../controllers/DepartmentStore'
 
 const Asset = ({close}) => {
+    const {register,handleSubmit} = useForm()
+    const submit = useEstateStore((state)=>state.createAsset)
+    const getAllAsset = useEstateStore((state)=>state.getAllAsset)
+    const handleDelete = useEstateStore((state)=>state.deleteAsset)
+    const data = useEstateStore((state)=>state.assetData)
+    const department = useDepartmentStore((state)=>state.departmentData)
+    const getAllDepartment = useDepartmentStore((state)=>state.getAllDepartment)
+
+    useEffect(()=>{
+        getAllAsset(),
+        getAllDepartment()
+        department
+        data
+    },[])
+
+    const {open:OpenModal,close:CloseModal} = useModalActions('edit_asset_modal')
+    const [assetData,setAssetData] = useState({
+        id:'',
+        name:'',
+        description:'',
+        dateOfPurchase:'',
+        quantity:'',
+        identificationNumber:'',
+        department:''
+    })
+ 
   return (
     <>
     <div className='grid sm:grid-cols-3 gap-5 my-5'>
@@ -9,42 +42,92 @@ const Asset = ({close}) => {
                 <thead>
                     <tr>
                         <th>Name and Description</th>
-                        <th>Date Of Purchase</th>
+                        <th>Date</th>
                         <th>Quantity</th>
-                        <th>Identification N0</th>
-                        <th>Department</th>
+                        <th>Id</th>
+                        <th>Depart</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    {data?.map((asset)=>{
+                        return(
+                            <tr>
+                                <td>{asset?.name}{' '}{asset?.description}</td>
+                                <td>{asset?.dateOfPurchase}</td>
+                                <td>{asset?.quantity}</td>
+                                <td>{asset?.identificationNumber}</td>
+                                <td>{asset?.department}</td>
+                                <td className='flex gap-x-1 border-none'>
+                                    <EditButton handleClick={()=>{
+                                        setAssetData({
+                                            id:asset._id,
+                                            name:asset.name,
+                                            description:asset.description,
+                                            dateOfPurchase:asset.dateOfPurchase,
+                                            quantity:asset.quantity,
+                                            identificationNumber:asset.identificationNumber,
+                                            department:asset.department
+                                        })
+                                        OpenModal()
+                                    }}/>
+                                    <DeleteButton handleClick={()=>{
+                                    handleDelete(asset?._id)
+                                }}/></td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
             </table>
+            <EditAssetModal
+             closeModal={CloseModal}
+             id = {assetData.id}
+             name = {assetData.name}
+             description={assetData.description}
+             dateOfPurchase={assetData.dateOfPurchase}
+             identificationNumber={assetData.identificationNumber}
+             quantity={assetData.quantity}
+             department1={assetData.department}
+             />
         </section>
-        <form className='p-5 bg-red-400 rounded-md sm:mt-5'>
+        <form 
+        onSubmit={handleSubmit(submit)}
+        className='p-5 bg-red-400 rounded-md sm:mt-5'>
             <h1 className='text-2xl font-bold uppercase text-center text-red-700'>Asset form</h1>
             <div className='flex flex-col gap-y-2 my-4'>
-                <label>Name And Description</label>
-                <input type='text' placeholder='Enter name of asset'/>
+                <label>Name</label>
+                <input type='text' placeholder='Enter name of asset'{...register('name')}/>
+            </div>
+            <div className='flex flex-col gap-y-2 my-4'>
+                <label>Description</label>
+                <input type='text' placeholder='Enter name of asset'{...register('description')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Date Of Purchase</label>
-                <input type='text' placeholder='Enter name of asset'/>
+                <input type='date' placeholder='Enter name of asset'{...register('dateOfPurchase')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Quantity</label>
-                <input type='text' placeholder='Enter name of asset'/>
+                <input type='number' min={1} {...register('quantity')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Identification Number</label>
-                <input type='text' placeholder='Enter name of asset'/>
+                <input type='text' placeholder='Enter name of asset'{...register('identificationNumber')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Department</label>
-                <select>
-                    <option>Select Department</option>
+                <select {...register('department')}>
+                    <option value=''>Select Department</option>
+                    {department?.map((dep)=>{
+                return(
+                  <option value={dep?.initials}>{dep?.name}</option>
+                )
+              })}
                 </select>
             </div>
             <div className='flex gap-x-3 mt-3 place-content-center'>
                 <button>Add</button>
-                <button>Cancel</button>
+                <button type='button'>Cancel</button>
             </div>
         </form>
 

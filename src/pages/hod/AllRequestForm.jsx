@@ -21,6 +21,15 @@ const AllRequestForm = () => {
     getAllRequest()
    },[toggle])
   
+   const [datafilter,setFilter] = useState('')
+   const UserData = data?.filter((n)=>{
+       if(datafilter!=null){
+         return n.name.toLowerCase().includes(datafilter)||n.description.toLowerCase().includes(datafilter)||n.status.toLowerCase().includes(datafilter)||n.message.toLowerCase().includes(datafilter)
+       }
+       return user
+   })
+
+
 const [requestdata,setRequestData] = useState({
   id:'',
   name:'',
@@ -36,7 +45,8 @@ const [requestdata,setRequestData] = useState({
     <>
     <form className='flex flex-col sm:flex-row gap-y-2 sm:justify-between sm:mb-10 mb-5' >
     <div className='w-full sm:w-1/3 border border-red-400 rounded'>
-      <input type='search' placeholder='search' className='w-full'/>
+      <input type='search' placeholder='search' className='w-full'value={datafilter} onChange={(e)=>{setFilter(e.target.value) 
+         }}/>
     </div>
     <div className='border border-red-400 place-content-center p-3 rounded'>
       Show{' '}
@@ -63,7 +73,7 @@ const [requestdata,setRequestData] = useState({
         </thead>
         <tbody>
           { !isProcessing ?
-            data?.map((dat)=>{
+            UserData?.map((dat)=>{
               number = number+1
               return(
                 <tr key={dat?._id}>
@@ -72,21 +82,21 @@ const [requestdata,setRequestData] = useState({
                   <td>{dat?.description}</td>
                   <td>{dat?.quantity}</td>
                   <td>{dat?.status}</td>
-                  <td>{dat?.message}</td>
-                  <td className='flex gap-x-8'>
-            <EditButton  handleClick={()=>{
-              setRequestData({
-                id:dat._id,
-                name: dat.name,
-                description: dat.description,
-                quantity: dat.quantity
-              })
-              OpenModal()
-              setToggle(!toggle)
+                  <td>{dat?.message}</td> 
+                 <td className='flex gap-x-8 border-none'>
+                    {dat.status =='pending'? <><EditButton handleClick={()=>{
+                     setRequestData({
+                      id:dat._id,
+                      name: dat.name,
+                      description: dat.description,
+                      quantity: dat.quantity
+                    })
+                    OpenModal()
+                    setToggle(!toggle)
             }} />
             <DeleteButton handleClick={()=>{
               setToggle(!toggle)
-              handleDelete(dat?._id)}}/>
+              handleDelete(dat?._id)}}/> </>:'No Action'}
           </td>
                 </tr>
               )

@@ -79,6 +79,7 @@ const Hod = () => {
               <label for='description'>Description</label>
               <input type='text' placeholder=' description' id='description'className='outline-red-400' {...register('description',{required:true})}/>
               </div>
+              <input type='text'  value={data?.department} className='hidden' {...register('department',{required:true})}/>
               <div className='flex flex-col gap-2 mb-5'>
               <label for='quantity'>Quantity</label>
               <input type='number' min={1} id='quantity'className='outline-red-400'{...register('quantity',{required:true,valueAsNumber:true})}/>

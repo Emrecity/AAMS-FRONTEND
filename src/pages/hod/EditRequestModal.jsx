@@ -23,12 +23,12 @@ const submit = useHodStore((state)=>state.updateRequest)
         <h1 className='uppercase text-2xl text-[#5B0101] underline mb-4 font-bold text-center pt-4'>Edit Request</h1>
         <div className='flex flex-col gap-y-2'>
           <label for='asset'>Name of Asset</label>
-          <input type='text' placeholder='asset' id='asset' defaultValue={name} {...register('name',{required:'enter name'})}/>
+          <input type='text' autoFocus placeholder='asset' id='asset' defaultValue={name} {...register('name',{required:'enter name',isDirty:true})}/>
     
         </div>
         <div className='flex flex-col gap-y-2 my-2'>
           <label for='description'>Description</label>
-          <input type='text' placeholder='description' id='description' defaultValue={description} {...register('description',{required:'enter description'})}/>
+          <input type='text'  placeholder='description' id='description' defaultValue={description} {...register('description',{required:'enter description',isDirty:true})}/>
         </div>
         <div className='flex flex-col gap-y-2'>
           <label for='quantity'>Quantity</label>

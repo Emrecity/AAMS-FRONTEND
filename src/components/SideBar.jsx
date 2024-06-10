@@ -55,7 +55,7 @@ const SideBar = () => {
 </svg>
   Audit Form</li>}
 
-      <li onClick={()=>navigate(routes.SETTINGS)} className='flex gap-x-3 side-bar-nav'>
+   { role ==='admin'&&   <li onClick={()=>navigate(routes.SETTINGS)} className='flex gap-x-3 side-bar-nav'>
       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
  width="30px" height="30px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
 <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="36" y1="34" x2="41" y2="39"/>
@@ -65,7 +65,7 @@ const SideBar = () => {
 <path fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" d="M58,12.5l-8,3.75l-4-4.125l3.5-8.062l0,0
 C39.5,4.062,37,9,37,14v4L3.5,52l-1.75,6l2.125,2l6.062-1.5L44,25h4C53,25,58,22.5,58,12.5L58,12.5z"/>
 </svg>
-        settings</li>
+        settings</li>}
 
 
       <li onClick={logout} className='flex gap-x-3 side-bar-nav'><svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

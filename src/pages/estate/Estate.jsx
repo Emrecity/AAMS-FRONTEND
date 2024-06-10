@@ -1,11 +1,18 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Card from '../../components/Card'
 import Department from './Department'
 import Audit from './Audit'
 import Request from './Request'
 import Asset from './Asset'
+import { useEstateStore } from '../../controllers/EstateStore'
 
 const Estate = () => {
+  const getAllUser = useEstateStore((state)=>state. getAllAuditData)
+  const getAllAudit = useEstateStore((state)=>state.getAllData)
+  useEffect(()=>{
+    getAllUser();
+    getAllAudit()
+  },[])
 
   const [show,setShow] = useState(true)
   const [page,setPage] =useState('')

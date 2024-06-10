@@ -17,8 +17,14 @@ const ViewAuditForm = () => {
   useEffect(()=>{
     getAllAudit()
     data
-  },[toggle])
-
+  },[])
+  const [datafilter,setFilter] = useState('')
+  const UserData = data?.filter((n)=>{
+      if(datafilter!=null){
+        return n.nameAndDescription.toLowerCase().includes(datafilter)||n.identificationId.toLowerCase().includes(datafilter)||n.remarks.toLowerCase().includes(datafilter)||n.dateOfPurchase.toLowerCase().includes(datafilter)
+      }
+      return user
+  })
 let number = 0
 
 const [auditData,setAuditData] = useState('')
@@ -26,7 +32,8 @@ const [auditData,setAuditData] = useState('')
   return (
     <div className='px-5'>
         <div className='flex justify-between'>
-        <input type='search' placeholder='keyword' className='outline outline-red-400 bg-transparent'/>
+        <input type='search' placeholder='keyword' className='outline outline-red-400 bg-transparent' value={datafilter} onChange={(e)=>{setFilter(e.target.value) 
+         }}/>
      
         <select disabled  className='bg-[#5B0101] text-white  sm:h-10 px-3 rounded-md mb-3'>
             <option>{department}</option>
@@ -49,7 +56,7 @@ const [auditData,setAuditData] = useState('')
             </thead>
             <tbody>
                 {!isProcessing?
-                    data?.map((dat)=>{
+                    UserData?.map((dat)=>{
                        
                         number = number+1
                         return(

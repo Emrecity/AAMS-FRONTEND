@@ -29,7 +29,7 @@ export const useUserStore = create((set)=>({
             }
         })
         .catch((err)=>{
-            toast.error(`${err.message}`)
+            handleError(err)
         })
         .finally(()=>{
             set({isProcessing:false})
@@ -58,7 +58,7 @@ export const useUserStore = create((set)=>({
             }
             useUserStore.getState().getAllUsers()
         }).catch((err)=>{
-            toast.error(`${err.message}`)
+            handleError(err)
         }).finally(()=>{
             set({isProcessing:false})
         })
@@ -107,3 +107,18 @@ export const useUserStore = create((set)=>({
      },
 
 }))
+
+const handleError =(err)=>{
+    if(err.response.status ===400){
+        toast.error('Already exist')
+    }else if(err.response.status ===404){
+        toast.error(err?.response?.data?.message)
+    }
+    else if(err.response.status ===500){
+        toast.error('Missing required field')
+    }
+    else {
+ 
+        toast.error(err.response?.data.message);
+    }
+}

@@ -1,7 +1,10 @@
-import React, {useEffect} from 'react'
+import React, {useEffect,useState} from 'react'
 import { useForm } from 'react-hook-form'
 import { useDepartmentStore } from '../../controllers/DepartmentStore'
 import DeleteButton from '../../components/DeleteButton'
+import EditButton from '../../components/EditButton'
+import {useModalActions} from '../../components/ModalActions'
+import EditDepartmentModal from './EditDepartmentModal'
 
 const Department = () => {
 
@@ -15,10 +18,12 @@ const Department = () => {
     Data
   },[])
 
-  const onSubmit = (data)=>{
-    console.log(data)
-  }
-
+  const [depData,setdepData] = useState({
+    id:'',
+    department:'',
+    initials:'',
+  })
+  const {open:OpenModal,close:CloseModal} = useModalActions('edit_department_modal')
   const {register,handleSubmit} = useForm()
 
   return (
@@ -37,18 +42,33 @@ const Department = () => {
           {
             Data?.map((dep)=>{
               return(
-                <tr key={dep?._id}>
-                  <td>{dep?.name}</td>
-                  <td>{dep?.initials}</td>
-                  <td><DeleteButton handleClick={()=>{
+                <tr key={dep._id}>
+                  <td>{dep.name}</td>
+                  <td>{dep.initials}</td>
+                  <td className='flex gap-x-2 border-none'>
+                   <EditButton handleClick={()=>{
+                    setdepData({
+                      id:dep._id,
+                      department:dep.name,
+                      initials:dep.initials
+                    })
+                    OpenModal()
+                   }}/>
+                    <DeleteButton handleClick={()=>{
                     handleDelete(dep?._id)
-                  }}/></td>
+                  }}/>
+                  </td>
                 </tr>
               )
             })
           }
+         
         </tbody>
       </table>
+      <EditDepartmentModal closeModal={CloseModal}
+       id={depData.id} 
+       name={depData.department} 
+       initials={depData.initials}/>
       <form
       onSubmit={handleSubmit(submit)}
       className='bg-[#DA8080] sm:p-8 rounded-xl h-fit'>
