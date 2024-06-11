@@ -83,7 +83,7 @@ const [requestdata,setRequestData] = useState({
                   <td>{dat?.quantity}</td>
                   <td>{dat?.status}</td>
                   <td>{dat?.message}</td> 
-                 <td className='flex gap-x-8 border-none'>
+                 <td className='flex gap-x-8 border-none pt-3'>
                     {dat.status =='pending'? <><EditButton handleClick={()=>{
                      setRequestData({
                       id:dat._id,
@@ -96,7 +96,7 @@ const [requestdata,setRequestData] = useState({
             }} />
             <DeleteButton handleClick={()=>{
               setToggle(!toggle)
-              handleDelete(dat?._id)}}/> </>:'No Action'}
+              handleDelete(dat?._id)}}/> </>:'Disable'}
           </td>
                 </tr>
               )

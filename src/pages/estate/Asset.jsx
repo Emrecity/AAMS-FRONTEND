@@ -13,12 +13,15 @@ const Asset = ({close}) => {
     const getAllAsset = useEstateStore((state)=>state.getAllAsset)
     const handleDelete = useEstateStore((state)=>state.deleteAsset)
     const data = useEstateStore((state)=>state.assetData)
+    const data1 = useEstateStore((state)=>state.allData)
+    const getAllUser = useEstateStore((state)=>state.getAllData)
     const department = useDepartmentStore((state)=>state.departmentData)
     const getAllDepartment = useDepartmentStore((state)=>state.getAllDepartment)
 
     useEffect(()=>{
         getAllAsset(),
         getAllDepartment()
+        getAllUser()
         department
         data
     },[])
@@ -33,6 +36,11 @@ const Asset = ({close}) => {
         identificationNumber:'',
         department:''
     })
+    const RequestData = data1?.map((list)=>list.filter((n)=>{
+       
+        return n.status ==='accept'
+      
+      }))
  
   return (
     <>
@@ -96,7 +104,14 @@ const Asset = ({close}) => {
             <h1 className='text-2xl font-bold uppercase text-center text-red-700'>Asset form</h1>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Name</label>
-                <input type='text' placeholder='Enter name of asset'{...register('name')}/>
+                <select {...register('name')} className='h-8 rounded-md'>
+                    <option>Name</option>
+                   {
+                    RequestData?.map((list)=>list.map((n)=>{
+                        return <option key={n._id} value={n.name}>{n.name}</option>
+                    }))
+                   }
+                </select>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Description</label>

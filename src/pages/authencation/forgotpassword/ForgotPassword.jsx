@@ -25,6 +25,7 @@ const ForgotPassword = () => {
           })}/>
         </div>
         <button onClick={()=>navigate(routes.RESET_PASSWORD)} className='font-bold text-xl py-2 mx-auto w-full'>Submit</button>
+        <button onClick={()=>navigate(routes.LOGIN)} className='font-bold text-xl py-2 mx-auto w-full mt-3 bg-slate-400'>BACK</button>
       </form>
     </div>
 </div>
