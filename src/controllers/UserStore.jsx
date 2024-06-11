@@ -36,6 +36,7 @@ export const useUserStore = create((set)=>({
         })
     },
 
+
     logout() {
                 localStorage.removeItem('token');
                 localStorage.removeItem('role');
@@ -48,7 +49,41 @@ export const useUserStore = create((set)=>({
                 localStorage.removeItem('id')
         window.location.replace(routes.LOGIN);
     },
+
+    async forgotPassword(data){
+        set({isProcessing:true})
+       await axios.post('api/v1/login/forget-password',data)
+        .then((res)=>{
+            if(res.status === 200){
+                const data =res?.data          
+                 localStorage.setItem('token', data?.token)
+                 window.location.replace(routes.RESET_PASSWORD)
+               // console.log(data)
+            }
+        })
+        .catch((err)=>{
+            handleError(err)
+        })
+        .finally(()=>{
+            set({isProcessing:false})
+        })
+    },
     
+    async resetPassword(data){
+        set({isProcessing:true})
+        await axios.patch(`api/v1/login/reset-password`,data)
+        .then((res)=>{
+            if(res.status === 200 || res.status === 201){
+               toast.success('Password successfully updated')
+               window.location.replace(routes.LOGIN)
+            }
+        }).catch((err)=>{
+            handleError(err)
+        }).finally(()=>{
+            set({isProcessing:false})
+        })
+    },
+
     async createUser(data){
         set({isProcessing:true})
         await axios.post(`api/v1/user`,data)
@@ -114,8 +149,8 @@ const handleError =(err)=>{
     }else if(err.response.status ===404){
         toast.error(err?.response?.data?.message)
     }
-    else if(err.response.status ===500){
-        toast.error('Missing required field')
+    else if(err.response.status === 500){
+        toast.error(err.message)
     }
     else {
  

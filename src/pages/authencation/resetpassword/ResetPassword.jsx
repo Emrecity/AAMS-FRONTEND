@@ -2,17 +2,22 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { routes } from '../../../helpers/routes'
 import { useNavigate } from 'react-router-dom'
+import { useUserStore } from '../../../controllers/UserStore'
 
 const ResetPassword = () => {
-
+  const submit = useUserStore((state)=>state.resetPassword)
   const {register,handleSubmit} = useForm()
   const navigate = useNavigate()
+
+// const submit = (data)=>{
+//   console.log(data)
+// }
 
   return (
     <div className='w-screen h-screen bg-slate-100'>
         <div  className='pt-32'>
           <form
-          onSubmit={handleSubmit()}
+          onSubmit={handleSubmit(submit)}
           className='mx-auto w-fit p-5 sm:w-1/3 bg-[#DA8080] sm:p-8 rounded-xl'>
             <div className='flex gap-x-8 mb-5'>
               <img src='aamusteLogo.jpg' width='60px' height='40px'/>
@@ -33,7 +38,7 @@ const ResetPassword = () => {
               })} />
             </div>
      
-            <button onClick={()=>navigate(routes.LOGIN)}  className='font-bold text-xl py-2 mx-auto w-full'>Reset Password</button>
+            <button className='font-bold text-xl py-2 mx-auto w-full'>Reset Password</button>
           </form>
         </div>
     </div>

@@ -21,12 +21,23 @@ const AllRequestForm = () => {
     getAllRequest()
    },[toggle])
   
-   const [datafilter,setFilter] = useState('')
+   const [datafilter,setFilter] = useState({
+    key:'',
+    status:''
+   })
+
    const UserData = data?.filter((n)=>{
-       if(datafilter!=null){
-         return n.name.toLowerCase().includes(datafilter)||n.description.toLowerCase().includes(datafilter)||n.status.toLowerCase().includes(datafilter)||n.message.toLowerCase().includes(datafilter)
-       }
-       return user
+
+    if(datafilter.key=='' && datafilter.status!=''){
+      return n.status.toLowerCase().includes(datafilter.status)
+    }
+    if(datafilter.key!='' && datafilter.status ==''){
+      return n.name.toLowerCase().includes(datafilter.key)||n.description.toLowerCase().includes(datafilter.key)||n.status.toLowerCase().includes(datafilter.key)||n.message.toLowerCase().includes(datafilter.key)
+    }
+    if(datafilter.key!=null && datafilter.status!=null){
+      return n.name.toLowerCase().includes(datafilter.key)||n.description.toLowerCase().includes(datafilter.key)||n.status.toLowerCase().includes(datafilter.status)||n.message.toLowerCase().includes(datafilter.key)
+    }
+      return n
    })
 
 
@@ -45,17 +56,16 @@ const [requestdata,setRequestData] = useState({
     <>
     <form className='flex flex-col sm:flex-row gap-y-2 sm:justify-between sm:mb-10 mb-5' >
     <div className='w-full sm:w-1/3 border border-red-400 rounded'>
-      <input type='search' placeholder='search' className='w-full'value={datafilter} onChange={(e)=>{setFilter(e.target.value) 
+      <input type='search' placeholder='search' className='w-full'value={datafilter.key} onChange={(e)=>{setFilter({...datafilter,key:e.target.value}) 
          }}/>
     </div>
     <div className='border border-red-400 place-content-center p-3 rounded'>
-      Show{' '}
-      <select>
-        <option>10</option>
-        <option>25</option>
-        <option>50</option>
-        <option>75</option>
-        <option>100</option>
+      <select value={datafilter.status} onChange={(e)=>{setFilter({...datafilter,status:e.target.value}) 
+         }}>
+        <option value=''> Show All</option>
+        <option value='accept'> Accepted</option>
+        <option value='pending'>Pending</option>
+        <option value='reject'>Rejected</option>
       </select>
     </div>
     </form>
