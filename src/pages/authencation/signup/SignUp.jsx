@@ -16,15 +16,19 @@ const SignUp = () => {
     department
   },[])
 
-  const {register,handleSubmit} = useForm()
+  const {register,handleSubmit,reset} = useForm()
   const navigate = useNavigate()
 
+  const onsubmit=(data)=>{
+    submit(data)
+    reset()
+  }
 
   return (
     <div className='w-screen h-screen bg-slate-100 '>
       <div className='pt-16'>
         <form 
-        onSubmit={handleSubmit(submit)}
+        onSubmit={handleSubmit(onsubmit)}
         className='mx-auto w-fit p-5 sm:w-1/3 bg-[#DA8080] sm:p-8 rounded-xl grid sm:grid-cols-2 sm:gap-x-3'>
           <div className='flex gap-x-16 mb-5 col-span-2'>
             <img src='aamusteLogo.jpg' width='70px' height='40px'/>

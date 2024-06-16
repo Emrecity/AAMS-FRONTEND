@@ -1,11 +1,11 @@
 import React,{useState, useEffect} from 'react'
-import Profile from './Profile'
+import Venue from './Venue'
 import Department from './Department'
 import User from './User'
 import {useUserStore} from '../../controllers/UserStore'
 
 const Setting = () => {
-  const [page,setPage] = useState('profile')
+  const [page,setPage] = useState('venue')
   const getUsers = useUserStore((state)=>state. getAllUsers)
   useEffect(()=>{
     getUsers()
@@ -15,9 +15,9 @@ const Setting = () => {
     <div className='bg-slate-200 p-5'>
        <ul className='flex flex-row place-content-center gap-x-5'>
       <li onClick={()=>{
-          setPage('profile')
+          setPage('venue')
          
-        }} className='settings-tabs'>Profile</li>
+        }} className='settings-tabs'>Venue</li>
 
       <li onClick={()=>{
           setPage('department')
@@ -30,7 +30,7 @@ const Setting = () => {
         }}className='settings-tabs'>Users</li>
   
          </ul>
-         {page === 'profile' && <Profile/>}
+         {page === 'venue' && <Venue/>}
          {page === 'department' && <Department/>}
          {page === 'user' && <User/>}
     </div>

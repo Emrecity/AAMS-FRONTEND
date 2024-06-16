@@ -15,8 +15,9 @@ const Hod = () => {
     const email = localStorage.getItem('email')
     const phone = localStorage.getItem('phone')
     const department = localStorage.getItem('department')
+    const role = localStorage.getItem('role')
 
-    const {register,handleSubmit,formState:{isDirty}} = useForm()
+    const {register,handleSubmit,reset,formState:{isDirty}} = useForm()
 
     const [open,setOpen] = useState(false)
     const [data,setData1] = useState({
@@ -28,6 +29,11 @@ const Hod = () => {
       phone,
       department
     })
+
+    const onsubmit=(data)=>{
+      submit(data)
+      reset()
+    }
 
   return (
     <div className=' bg-slate-50 px-5 py-10'>
@@ -69,7 +75,7 @@ const Hod = () => {
           </div>     
         </section><hr className='sm:hidden h-1 bg-red-700 my-2'/>
         <section>
-          <form onSubmit={handleSubmit(submit)}>
+          <form onSubmit={handleSubmit(onsubmit)}>
               <h2 className='font-bold text-2xl mb-5'>Make Request</h2>
               <div className='flex flex-col gap-2 mb-3'>
               <label for='assest'>Asset Name</label>
@@ -84,7 +90,7 @@ const Hod = () => {
               <label for='quantity'>Quantity</label>
               <input type='number' min={1} id='quantity'className='outline-red-400'{...register('quantity',{required:true,valueAsNumber:true})}/>
               </div>
-              <button className='hover:bg-red-700 text-white shadow-md px-5 w-full rounded-lg sm:h-12'>Request</button>
+              <button className='hover:bg-red-700 text-white shadow-md px-5 w-full rounded-lg sm:h-12' disabled={(role=='admin')}>Request</button>
           </form>
         </section>
   

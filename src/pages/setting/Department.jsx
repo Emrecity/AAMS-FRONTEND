@@ -24,7 +24,12 @@ const Department = () => {
     initials:'',
   })
   const {open:OpenModal,close:CloseModal} = useModalActions('edit_department_modal')
-  const {register,handleSubmit} = useForm()
+  const {register,handleSubmit,reset} = useForm()
+
+  const onsubmit =(data)=>{
+    submit(data)
+    reset()
+  }
 
   return (
     <div>
@@ -70,7 +75,7 @@ const Department = () => {
        name={depData.department} 
        initials={depData.initials}/>
       <form
-      onSubmit={handleSubmit(submit)}
+      onSubmit={handleSubmit(onsubmit)}
       className='bg-[#DA8080] sm:p-8 rounded-xl h-fit'>
         <h1 className='uppercase text-xl underline text-center text-red-900 font-bold'>Department Forms</h1>
         <div className='flex flex-col gap-y-2 my-3'>

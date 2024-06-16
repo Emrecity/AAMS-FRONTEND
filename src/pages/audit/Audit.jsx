@@ -1,9 +1,17 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import ViewAuditForm from './ViewAuditForm'
 import AuditForm from './AuditForm'
+import { useHodStore } from '../../controllers/HodStore'
 
 const Audit = () => {
-  const[open,setOpen]=useState(false);
+  const[open,setOpen]=useState(false)
+  const AllRequestdata = useHodStore((state)=>state.getAllRequest)
+  const AllStaff = useHodStore((state)=>state.getAllStaff)
+
+  useEffect(()=>{
+    AllRequestdata()
+    AllStaff()
+  },[])
   return (
     <div className='bg-slate-200 py-5'>
     <div className='flex justify-between p-5'>

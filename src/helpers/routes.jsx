@@ -8,5 +8,6 @@ export const routes = {
     HOD: '/hod',
     AUDIT: '/audit',
     ESTATE:'/estate',
+    STAFF:'/staff',
     ERROR:'*'
 }

@@ -8,7 +8,7 @@ import EditAssetModal from './EditAssetModal'
 import { useDepartmentStore } from '../../controllers/DepartmentStore'
 
 const Asset = ({close}) => {
-    const {register,handleSubmit} = useForm()
+    const {register,handleSubmit,reset} = useForm()
     const submit = useEstateStore((state)=>state.createAsset)
     const getAllAsset = useEstateStore((state)=>state.getAllAsset)
     const handleDelete = useEstateStore((state)=>state.deleteAsset)
@@ -36,6 +36,10 @@ const Asset = ({close}) => {
         identificationNumber:'',
         department:''
     })
+    const onsubmit=(data)=>{
+        submit(data)
+        reset()
+    }
     const RequestData = data1?.map((list)=>list.filter((n)=>{
        
         return n.status ==='accept'
@@ -99,7 +103,7 @@ const Asset = ({close}) => {
              />
         </section>
         <form 
-        onSubmit={handleSubmit(submit)}
+        onSubmit={handleSubmit(onsubmit)}
         className='p-5 bg-red-400 rounded-md sm:mt-5'>
             <h1 className='text-2xl font-bold uppercase text-center text-red-700'>Asset form</h1>
             <div className='flex flex-col gap-y-2 my-4'>
@@ -115,7 +119,14 @@ const Asset = ({close}) => {
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Description</label>
-                <input type='text' placeholder='Enter name of asset'{...register('description')}/>
+                <select {...register('description')} className='h-8 rounded-md'>
+                    <option>Description</option>
+                   {
+                    RequestData?.map((list)=>list.map((n)=>{
+                        return <option key={n._id} value={n.description}>{n.description}</option>
+                    }))
+                   }
+                </select>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Date Of Purchase</label>
@@ -127,7 +138,7 @@ const Asset = ({close}) => {
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Identification Number</label>
-                <input type='text' placeholder='Enter name of asset'{...register('identificationNumber')}/>
+                <input type='text' placeholder='Enter identificaiton Number'{...register('identificationNumber')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Department</label>

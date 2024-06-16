@@ -9,6 +9,7 @@ import MasterDashboard from "./pages/masterdashboard/MasterDashboard"
 import Dashboard from './pages/dashboard/Dashboard'
 import Hod from "./pages/hod/Hod"
 import Audit from './pages/audit/Audit'
+import Staff from "./pages/staff/Staff";
 import Estate from './pages/estate/Estate'
 import Setting from './pages/setting/Setting'
 
@@ -30,6 +31,7 @@ function App() {
         <Route path={routes.DASHBOARD} element={<Dashboard/>}/>
         <Route path={routes.HOD} element={<Hod/>}/>
         <Route path={routes.AUDIT} element={<Audit/>}/>
+        <Route path={routes.STAFF} element={<Staff/>}/>
         <Route path={routes.ESTATE} element={<Estate/>}/>
         <Route path={routes.SETTINGS} element={<Setting/>}/>
       </Route>
