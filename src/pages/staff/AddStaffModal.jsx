@@ -1,15 +1,32 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Modal from '../../components/Modal'
 import {useForm} from 'react-hook-form'
 import {useHodStore} from '../../controllers/HodStore'
+import { useVenueStore } from '../../controllers/VenueStore'
 
 const AddStaffModal = ({closeModal}) => {
-    const{ register,handleSubmit} = useForm()
+    const{ register,handleSubmit,watch,reset} = useForm()
     const OnSubmit = useHodStore((state)=>state.createStaff)
+    const getAllVenue = useVenueStore((state)=>state.getAllVenue)
+    const data1 = useVenueStore((state)=>state.venueData)
+    const id = watch('office.0')
+    let realData = data1.find((n)=>n._id===id)
+   
     const submit =(data)=>{
+        data.office[0] = realData?.name
         data.office = data.office.join('-')
         OnSubmit(data)
+        reset()
+        realData=''
+        data=''
+        
     }
+
+    useEffect(()=>{
+        getAllVenue()
+        data1
+    },[])
+
   return (
     <Modal closeModal={closeModal} modal_id='add_staff_modal'>
         <form 
@@ -23,7 +40,7 @@ const AddStaffModal = ({closeModal}) => {
                     <option value='Mr'>Mr</option>
                     <option value='Mrs'>Mrs</option>
                     <option value='Prof'>Prof</option>
-                    <option value='Doc'>Dr</option>
+                    <option value='Dr'>Dr</option>
                     <option value='Ing'>Ing</option>
                 </select>
             </div>
@@ -60,19 +77,27 @@ const AddStaffModal = ({closeModal}) => {
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Office</label>
                 <select className='h-10 rounded-md' {...register('office.0')}>
-                    <option>Select Building</option>
-                    <option value='rob'>Rob</option>
-                    <option value='nfb'>NFB</option>
+                    <option value=''>Select Venue</option>
+                    {
+                        data1?.map((n)=>{
+                            return(
+                                <option key={n._id} value={n._id}>{n.name}</option>
+                            )
+                        })
+                    }
                 </select>
             </div>
-            <div className='flex flex-col gap-y-2 my-3 col-span-2'>
+            { id !='' && <div className='flex flex-col gap-y-2 my-3 col-span-2'>
                 <label>Office Room</label>
                 <select className='h-8 rounded-md' {...register('office.1')}>
-                    <option>Select Room</option>
-                    <option value='room 1'>Room 1</option>
-                    <option value='room 2'>Room 2</option>
+                    <option value=''>Select Room</option>
+                   {
+                    realData?.rooms?.map((n)=>{
+                        return <option key={n._id} value={`${n.position} ${n.name}`}>{n.name}</option>
+                    })
+                   }
                 </select>
-            </div>
+            </div>}
         </div>
         <div className='flex gap-x-5 place-content-center'>
                 <button>Add</button>

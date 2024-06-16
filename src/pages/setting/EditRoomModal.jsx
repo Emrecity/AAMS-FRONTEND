@@ -13,6 +13,7 @@ const EditRoomModal = ({CloseModal,id,name,position}) => {
         data.position = data.position!=''? data.position : position
         submit(id,data)
         data = ''
+        id=''
         CloseModal()
     }
 

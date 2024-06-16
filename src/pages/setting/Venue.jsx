@@ -6,6 +6,7 @@ import DeleteButton from '../../components/DeleteButton'
 import {useModalActions} from '../../components/ModalActions'
 import AddRoomModal from './AddRoomModal'
 import EditRoomModal from './EditRoomModal'
+import EditVenueModal from './EditVenueModal'
 
 const Venue = () => {
 
@@ -17,6 +18,7 @@ const Venue = () => {
     const handleRoomDelete = useVenueStore((state)=>state.deleteRoom)
     const {open:OpenAddRoomModal,close:CloseAddRoomModal} = useModalActions('add_room_modal')
     const {open:OpenEditRoomModal,close:CloseEditRoomModal} = useModalActions('edit_room_modal')
+    const {open:OpenEditVenueModal,close:CloseEditVenueModal} = useModalActions('edit_venue_modal')
 
     useEffect(()=>{
         getAllVenue()
@@ -29,6 +31,11 @@ const Venue = () => {
     const [upRoomData, setUpRoomData] = useState({
         id:'',
         position:'',
+        name:''
+    })
+    const [upVenueData, setUpVenueData] = useState({
+        id:'',
+        initials:'',
         name:''
     })
 
@@ -66,7 +73,16 @@ const Venue = () => {
                             return <tr key={n._id}>
                                 <td>{n.name}</td>
                                 <td>{n.initials}</td>
-                                <td><EditButton/>
+                                <td><EditButton
+                                    handleClick={()=>{
+                                        setUpVenueData({
+                                            id:n._id,
+                                            name:n.name,
+                                            initials:n.initials
+                                        })
+                                        OpenEditVenueModal()
+                                    }}
+                                />
                                 <DeleteButton handleClick={()=>{
                                     handleDelete(n._id)
                                 }}/>
@@ -79,6 +95,12 @@ const Venue = () => {
                     }
                 </tbody>
             </table>
+            <EditVenueModal
+             CloseModal={CloseEditVenueModal}
+             id={upVenueData?.id}
+             name={upVenueData?.name}
+             initials={upVenueData?.initials}
+             />
             <form 
             onSubmit={handleSubmit(onsubmit)}
             className='bg-[#DA8080] sm:p-8 rounded-xl h-fit'>
