@@ -5,6 +5,7 @@ import EditButton from '../../components/EditButton'
 import DeleteButton from '../../components/DeleteButton'
 import {useModalActions} from '../../components/ModalActions'
 import AddRoomModal from './AddRoomModal'
+import EditRoomModal from './EditRoomModal'
 
 const Venue = () => {
 
@@ -15,6 +16,7 @@ const Venue = () => {
     const data = useVenueStore((state)=>state.venueData)
     const handleRoomDelete = useVenueStore((state)=>state.deleteRoom)
     const {open:OpenAddRoomModal,close:CloseAddRoomModal} = useModalActions('add_room_modal')
+    const {open:OpenEditRoomModal,close:CloseEditRoomModal} = useModalActions('edit_room_modal')
 
     useEffect(()=>{
         getAllVenue()
@@ -24,6 +26,11 @@ const Venue = () => {
     const [toggle,setToggle] = useState(true)
     const [singleData,setSingleData] = useState()
     const [dfil,setDfil] = useState('')
+    const [upRoomData, setUpRoomData] = useState({
+        id:'',
+        position:'',
+        name:''
+    })
 
     const onsubmit=(data)=>{
         submit(data)
@@ -109,18 +116,6 @@ const Venue = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {/* {
-                rooms?.map((n)=>{     
-                        return <tr key={n._id} >
-                        <td>{n?.name}</td>
-                        <td className='text-nowrap'>{n?.position}</td>
-                        <td className='flex mt-3 border-none gap-x-3 place-content-center'>
-                            <EditButton/>
-                            <DeleteButton/>
-                        </td>
-                        </tr>     
-                })
-               } */}
                {
                 roomData?.rooms.map((n)=>{
                     return(
@@ -128,7 +123,13 @@ const Venue = () => {
                          <td>{n?.name}</td>
                          <td className='text-nowrap'>{n?.position}</td>
                          <td className='flex mt-3 border-none gap-x-3 place-content-center'>
-                            <EditButton/>
+                            <EditButton handleClick={()=>{
+                                setUpRoomData({
+                                    id:n._id,
+                                    name:n.name,
+                                    position:n.position
+                                })
+                                OpenEditRoomModal()}}/>
                             <DeleteButton handleClick={()=>handleRoomDelete(n._id)}/>
                          </td>
                         </tr>
@@ -138,6 +139,12 @@ const Venue = () => {
                 </tbody>
             </table>
           <AddRoomModal CloseModal={CloseAddRoomModal} id={singleData._id}/>
+          <EditRoomModal 
+          CloseModal={CloseEditRoomModal}
+          id={upRoomData?.id}
+          name={upRoomData?.name}
+          position={upRoomData.position}
+          />
             <button onClick={()=>{
                 setToggle(!toggle)
                 setSingleData('')

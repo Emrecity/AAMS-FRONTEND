@@ -3,32 +3,34 @@ import Modal from '../../components/Modal'
 import { useForm } from 'react-hook-form'
 import { useVenueStore } from '../../controllers/VenueStore'
 
-const AddRoomModal = ({CloseModal,id}) => {
+const EditRoomModal = ({CloseModal,id,name,position}) => {
 
-    const{register,handleSubmit,reset} = useForm()
-    const submit = useVenueStore((state)=>state.createRoom)
-    const getAllVenue = useVenueStore((state)=>state.getAllVenue)
+    const{register,handleSubmit} = useForm()
+    const submit = useVenueStore((state)=>state.updateRoom)
 
     const onsubmit=(data)=>{
-      submit(id,data)
-      getAllVenue()
-      reset()
+        data.name = data.name !=''? data.name : name
+        data.position = data.position!=''? data.position : position
+        submit(id,data)
+        data = ''
+        CloseModal()
     }
 
   return (
-    <Modal closeModal={CloseModal} modal_id='add_room_modal'>
+    <Modal closeModal={CloseModal} modal_id='edit_room_modal'>
         <form 
-            onSubmit={handleSubmit(onsubmit)}
+             onSubmit={handleSubmit(onsubmit)}
             className='bg-[#DA8080] sm:p-8 rounded-xl h-fit'>
-                <h1 className='uppercase text-xl underline text-center text-red-900 font-bold'>Add Room Forms</h1>
+                <h1 className='uppercase text-xl underline text-center text-red-900 font-bold'>Edit Room</h1>
                 <div className='flex flex-col gap-y-2 my-3'>
                     <label>Name</label>
-                    <input type='text' placeholder='name'{...register('name',{required:'Unique name is required'})} />
+                    <input type='text' placeholder='name' defaultValue={name} {...register('name')} />
                 </div>
                 <div className='flex flex-col gap-y-2 my-3'>
                     <label>Position</label>
-                    <select {...register('position',{required:'position require'})} className='h-10 rounded-md'>
-                        <option selected value='GF'>Ground Floor</option>
+                    <select {...register('position')} className='h-10 rounded-md'>
+                        <option selected value={position}>{position}</option>
+                        <option value='GF'>Ground Floor</option>
                         <option value='FF'>First Floor</option>
                         <option value='2F'>Second Floor</option>
                         <option value='3F'>Third Floor</option>
@@ -37,7 +39,7 @@ const AddRoomModal = ({CloseModal,id}) => {
                         <option value='6F'>Sixth Floor</option>
                     </select>
                 </div>
-                <button className='font-bold text-xl py-2 mx-auto w-full my-2'>Add</button>
+                <button className='font-bold text-xl py-2 mx-auto w-full my-2'>update</button>
                 <button type='button' onClick={CloseModal}>Cancel</button>
             </form>
            
@@ -45,4 +47,4 @@ const AddRoomModal = ({CloseModal,id}) => {
   )
 }
 
-export default AddRoomModal
+export default EditRoomModal

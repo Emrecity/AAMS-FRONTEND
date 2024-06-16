@@ -101,7 +101,7 @@ export const useVenueStore = create((set)=>({
 
     async updateRoom(id,data){
         set({isProcessing:true})
-        await axios.put(`api/v1/venue/room/${id}`,data)
+        await axios.patch(`api/v1/venue/room/${id}`,data)
         .then((res)=>{
             if(res.status === 200 || res.status === 201){
                toast.success('Venue updated successfully')
