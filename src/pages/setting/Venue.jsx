@@ -13,6 +13,7 @@ const Venue = () => {
     const submit = useVenueStore((state)=>state.createVenue)
     const handleDelete = useVenueStore((state)=>state.deleteVenue)
     const data = useVenueStore((state)=>state.venueData)
+    const handleRoomDelete = useVenueStore((state)=>state.deleteRoom)
     const {open:OpenAddRoomModal,close:CloseAddRoomModal} = useModalActions('add_room_modal')
 
     useEffect(()=>{
@@ -23,7 +24,6 @@ const Venue = () => {
     const [toggle,setToggle] = useState(true)
     const [singleData,setSingleData] = useState()
     const [dfil,setDfil] = useState('')
-    const [roomD,setRoomD] = useState('')
 
     const onsubmit=(data)=>{
         submit(data)
@@ -31,7 +31,6 @@ const Venue = () => {
     }
 
     const roomData = (singleData != ''? data?.find((n)=>n._id ===singleData?._id):[])
-    const roomData1 = roomData?.map((n)=>n.rooms.filter((n)=>n.name.toLowerCase().includes(roomD.toLowerCase())))
 
     const venueData = data.filter((n)=>{
         if(dfil != ''){
@@ -98,7 +97,7 @@ const Venue = () => {
                 <h2>{singleData.initials}</h2>
             </div>
             <div className='flex gap-2 sm:justify-between my-5'>
-                <input type='search' placeholder='keyword' value={roomD} onChange={(e)=>setRoomD(e.target.value)}/>
+                <h1 className='uppercase text-xl text-red-700'>Rooms</h1>
                 <button onClick={()=>OpenAddRoomModal()}>Add Room</button>
             </div>
             <table className='table-fixed mb-3'>
@@ -123,14 +122,14 @@ const Venue = () => {
                 })
                } */}
                {
-                roomData1?.rooms.map((n)=>{
+                roomData?.rooms.map((n)=>{
                     return(
                         <tr key={n._id}>
                          <td>{n?.name}</td>
                          <td className='text-nowrap'>{n?.position}</td>
                          <td className='flex mt-3 border-none gap-x-3 place-content-center'>
                             <EditButton/>
-                            <DeleteButton/>
+                            <DeleteButton handleClick={()=>handleRoomDelete(n._id)}/>
                          </td>
                         </tr>
                     )
