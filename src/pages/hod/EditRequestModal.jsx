@@ -8,7 +8,7 @@ const EditRequestModal = ({closeModal,id,name,description,quantity}) => {
 
   useEffect(()=>{
     reset()
-  },[closeModal])
+  },[name])
 
 const {register,handleSubmit,reset,formState:{isDirty,isValid}}= useForm()
 const submit = useHodStore((state)=>state.updateRequest)
@@ -18,7 +18,6 @@ const submit = useHodStore((state)=>state.updateRequest)
     data.description = (data.description)? data.description:description
     data.quantity = (data.quantity)? data.quantity:quantity
     submit(id,data)
-    // reset()
     closeModal()
   }
 

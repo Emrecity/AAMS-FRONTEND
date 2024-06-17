@@ -1,19 +1,21 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Modal from '../../components/Modal'
 import { useForm } from 'react-hook-form'
 import { useVenueStore } from '../../controllers/VenueStore'
 
 const EditRoomModal = ({CloseModal,id,name,position}) => {
 
-    const{register,handleSubmit} = useForm()
+    const{register,handleSubmit,reset} = useForm()
     const submit = useVenueStore((state)=>state.updateRoom)
 
+    useEffect(()=>{
+        reset()
+    },[name])
+
     const onsubmit=(data)=>{
-        data.name = data.name !=''? data.name : name
-        data.position = data.position!=''? data.position : position
+        data.name = data.name == '' ? name : data.name
+        data.position = data.position==''?position : data.position
         submit(id,data)
-        data = ''
-        id=''
         CloseModal()
     }
 
@@ -30,7 +32,7 @@ const EditRoomModal = ({CloseModal,id,name,position}) => {
                 <div className='flex flex-col gap-y-2 my-3'>
                     <label>Position</label>
                     <select {...register('position')} className='h-10 rounded-md'>
-                        <option selected value={position}>{position}</option>
+                        <option selected value=''>{position}</option>
                         <option value='GF'>Ground Floor</option>
                         <option value='FF'>First Floor</option>
                         <option value='2F'>Second Floor</option>

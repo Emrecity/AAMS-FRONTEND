@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Modal from '../../components/Modal'
 import { useForm } from 'react-hook-form'
 import { useVenueStore } from '../../controllers/VenueStore'
@@ -8,14 +8,16 @@ const EditVenueModal = ({CloseModal,id,name,initials}) => {
     const {register,handleSubmit,reset} = useForm()
     const submit = useVenueStore((state)=>state.updateVenue)
 
+    useEffect(()=>{
+        reset()
+    },[name])
+
     const onsubmit=(data)=>{
         data.name = data.name !='' ? data.name : name
         data.initials = data.initials !='' ? data.initials : initials
         submit(id,data)
-        data=''
-        id=''
-        reset()
         CloseModal()
+        
     }
 
   return (

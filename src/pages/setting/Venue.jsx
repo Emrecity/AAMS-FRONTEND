@@ -147,9 +147,9 @@ const Venue = () => {
                          <td className='flex mt-3 border-none gap-x-3 place-content-center'>
                             <EditButton handleClick={()=>{
                                 setUpRoomData({
-                                    id:n._id,
-                                    name:n.name,
-                                    position:n.position
+                                    id:n?._id,
+                                    name:n?.name,
+                                    position:n?.position
                                 })
                                 OpenEditRoomModal()}}/>
                             <DeleteButton handleClick={()=>handleRoomDelete(n._id)}/>
@@ -165,7 +165,7 @@ const Venue = () => {
           CloseModal={CloseEditRoomModal}
           id={upRoomData?.id}
           name={upRoomData?.name}
-          position={upRoomData.position}
+          position={upRoomData?.position}
           />
             <button onClick={()=>{
                 setToggle(!toggle)
