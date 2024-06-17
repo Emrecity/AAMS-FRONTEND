@@ -23,16 +23,16 @@ const onsumbit=(data)=>{
     data.dateOfPurchase = (data.dateOfPurchase!='')? data.dateOfPurchase:date
     data.quantity = (data.quantity=='')? quantity : data.quantity
     data.nameAndDescription = (data.nameAndDescription !='')? `${requestData.name} ${requestData.description}`:name
+    data.location = (data.user!='')? data2?.office : location
     data.identificationId = (data.identificationId !='')? data.identificationId:idNumber
     data.user = (data.user !='')? `${data2.title} ${data2.firstname} ${data2.lastname} ${data2.othername}`:user
-    data.location = (data.location!='')? data.location :data2.office
     data.finance = (data.finance !='')? data.finance:finance
     data.remarks = (data.remarks !='')? data.remarks:remarks
     submit(id,data)
     requestData=''
     data2 = ''
-    window.location.reload()
-}
+    close()
+ }
 
   return (
    <Modal closeModal={close} modal_id='edit_audit_modal'>
@@ -75,7 +75,7 @@ const onsumbit=(data)=>{
                 <label>User</label>
                 <select {...register('user')} className='text-black h-10 rounded-md' >
                 {/* <option value=' '>{user}</option> */}
-                <option selected value={user}>{user}</option>
+                <option  value=''>{user}</option>
                 {
                     StaffData.map((n)=>{
                         return <option key={n._id} value={n.email}>{n.title}{' '}{n.firstname}{' '}{n.lastname}{' '}{n.othername}</option>
@@ -84,10 +84,10 @@ const onsumbit=(data)=>{
             </select>
             </div>
               
-            <div className='flex flex-col gap-x-2 hidden'>
+         { fname!=''&&  <div className='flex flex-col gap-x-2 hidden'>
             <label>Location</label>
-            <input type='text' className='text-black' defaultValue={location} value={data2?.office} {...register('location')}/>
-            </div>
+            <input type='text' className='text-black' value={(fname == '')?location:data2?.office} {...register('location')}/>
+            </div>}
              
        
             <div className='flex flex-col gap-x-2'>

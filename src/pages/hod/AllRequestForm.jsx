@@ -19,7 +19,7 @@ const AllRequestForm = () => {
   useEffect(()=>{
     data,
     getAllRequest()
-   },[toggle])
+   },[])
   
    const [datafilter,setFilter] = useState({
     key:'',
@@ -96,10 +96,10 @@ const [requestdata,setRequestData] = useState({
                  <td className='flex gap-x-8 border-none pt-3'>
                     {dat.status =='pending'? <><EditButton handleClick={()=>{
                      setRequestData({
-                      id:dat._id,
-                      name: dat.name,
-                      description: dat.description,
-                      quantity: dat.quantity
+                      id:dat?._id,
+                      name: dat?.name,
+                      description: dat?.description,
+                      quantity: dat?.quantity
                     })
                     OpenModal()
                     setToggle(!toggle)
@@ -116,10 +116,10 @@ const [requestdata,setRequestData] = useState({
       </table>
      
         <EditRequestModal closeModal={CloseModal}
-        id={requestdata.id}
-        name={requestdata.name}
-        description={requestdata.description}
-        quantity={requestdata.quantity}
+        id={requestdata?.id}
+        name={requestdata?.name}
+        description={requestdata?.description}
+        quantity={requestdata?.quantity}
         />
     <button onClick={HandlePrint} className='text-white shadow-md my-5 float-right px-5 rounded-md'>Print</button>
 

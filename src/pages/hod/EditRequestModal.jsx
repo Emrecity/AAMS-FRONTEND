@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Modal from '../../components/Modal'
 import {useForm} from 'react-hook-form'
 import { useHodStore } from '../../controllers/HodStore'
@@ -6,12 +6,20 @@ import { useHodStore } from '../../controllers/HodStore'
 
 const EditRequestModal = ({closeModal,id,name,description,quantity}) => {
 
-const {register,handleSubmit,formState:{isDirty,isValid}}= useForm()
-const submit = useHodStore((state)=>state.updateRequest)
+  useEffect(()=>{
+    reset()
+  },[closeModal])
 
+const {register,handleSubmit,reset,formState:{isDirty,isValid}}= useForm()
+const submit = useHodStore((state)=>state.updateRequest)
+ 
   const onsubmit =(data)=>{
-   console.log(data)
-   submit(id,data)
+    data.name=(data.name) ? data.name:name
+    data.description = (data.description)? data.description:description
+    data.quantity = (data.quantity)? data.quantity:quantity
+    submit(id,data)
+    // reset()
+    closeModal()
   }
 
   return (
@@ -23,19 +31,19 @@ const submit = useHodStore((state)=>state.updateRequest)
         <h1 className='uppercase text-2xl text-[#5B0101] underline mb-4 font-bold text-center pt-4'>Edit Request</h1>
         <div className='flex flex-col gap-y-2'>
           <label for='asset'>Name of Asset</label>
-          <input type='text' autoFocus placeholder='asset' id='asset' defaultValue={name} {...register('name',{required:'enter name',isDirty:true})}/>
+          <input type='text'   id='asset' defaultValue={name} {...register('name')}/>
     
         </div>
         <div className='flex flex-col gap-y-2 my-2'>
           <label for='description'>Description</label>
-          <input type='text'  placeholder='description' id='description' defaultValue={description} {...register('description',{required:'enter description',isDirty:true})}/>
+          <input type='text'   id='description' defaultValue={description} {...register('description')}/>
         </div>
         <div className='flex flex-col gap-y-2'>
           <label for='quantity'>Quantity</label>
-          <input type='number' min={1} placeholder='asset' id='quantity' defaultValue={quantity} {...register('quantity',{valueAsNumber:true,required:'enter quantity'})}/>
+          <input type='number' min={1}  id='quantity' defaultValue={quantity} {...register('quantity')}/>
         </div>
         <div className='flex gap-5 place-content-center mt-4 pb-3'>
-        <button disabled={!isDirty || !isValid}>Update</button>
+        <button >Update</button>
         <button type='button' onClick={closeModal}>Cancel</button>
         </div>
        </form>

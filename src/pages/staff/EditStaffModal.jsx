@@ -13,7 +13,7 @@ const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender
     let realData = data1.find((n)=>n._id===id1)
 
     let onsubmit=(data)=>{
-        data.title = (data.title!='')? data.title:title
+        data.title = data.title!=''? data.title:title
         data.firstname = (data.firstname!='')? data.firstname:firstname
         data.lastname = (data.lastname!='')? data.lastname:lastname
         data.othername = (data.othername!='')? data.othername:othername
@@ -23,6 +23,7 @@ const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender
         data.office[0] = data.office[0] !='' && realData.name
         data.office =(data.office[1] !='' && data.office[0]!='')? data.office.join('-'):office
         submit(id,data)
+        window.location.reload()
         closeModal()    
     }
 
@@ -35,8 +36,8 @@ const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender
             <div className='grid sm:grid-cols-2 sm:gap-x-3'>
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Title</label>
-                <select className='h-10 rounded-md' defaultValue={title} {...register('title')}>
-                    <option selected value={title}>{title}</option>
+                <select className='h-10 rounded-md' defaultValue={title}   {...register('title')}>
+                    <option value={title}>{title}</option>
                     <option value='Mr'>Mr</option>
                     <option value='Mrs'>Mrs</option>
                     <option value='Prof'>Prof</option>
@@ -102,7 +103,9 @@ const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender
         </div>
         <div className='flex gap-x-5 place-content-center'>
                 <button disabled={!isDirty&&!isValid}>Update</button>
-                <button type='button' onClick={closeModal}>Cancel</button>
+                <button type='button' onClick={()=>{
+                    closeModal()
+                }}>Cancel</button>
         </div>
       </form>
 </Modal>
