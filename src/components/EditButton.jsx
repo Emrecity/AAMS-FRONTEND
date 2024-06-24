@@ -2,7 +2,7 @@ import React from 'react'
 
 const EditButton = ({handleClick}) => {
   return (
-    <button className="bg-blue-500 hover:bg-blue-600 w-auto btn rounded-md text-white"
+    <button className="bg-blue-500 hover:bg-blue-600 w-10 mx-1 btn rounded-md text-white"
     onClick={handleClick}
     >
             <div className="group relative">

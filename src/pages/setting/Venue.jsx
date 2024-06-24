@@ -7,6 +7,7 @@ import {useModalActions} from '../../components/ModalActions'
 import AddRoomModal from './AddRoomModal'
 import EditRoomModal from './EditRoomModal'
 import EditVenueModal from './EditVenueModal'
+import DataTable from 'react-data-table-component'
 
 const Venue = () => {
 
@@ -44,6 +45,27 @@ const Venue = () => {
         reset()
     }
 
+    const customStyle ={
+        headCells:{
+          style:{
+            fontWeight: "bold",
+            paddingLeft:"10px",
+            fontSize:'18px',
+            marginButton:"3px",
+            borderColor:'red',
+          }
+        },
+        rows:{
+          style:{
+            borderStyle:'solid',
+            borderWidth:'medium',
+            borderTopColor:'#DA8080',
+            textAlign:'left'
+          }
+        }
+    
+      }
+
     const roomData = (singleData != ''? data?.find((n)=>n._id ===singleData?._id):[])
 
     const venueData = data.filter((n)=>{
@@ -53,48 +75,80 @@ const Venue = () => {
         return n
     })
 
+    const Columns = [
+     
+        {
+            name:"Name",
+            selector:row=>row?.name,
+            sortable:true
+        },
+        {
+            name:"Initials",
+            selector:row=>row?.initials,
+            sortable:true
+        },
+        {
+            name:"Action",
+            button:true,
+            cell:(row)=>{return(<>
+            <EditButton
+                handleClick={()=>{
+                 setUpVenueData({
+                    id:row._id,
+                    name:row.name,
+                    initials:row.initials
+                })
+                    OpenEditVenueModal()
+                }}
+            />
+            <DeleteButton handleClick={()=>{
+                handleDelete(row._id)
+            }}/>
+            <button onClick={()=>{
+                setSingleData(row)
+                setToggle(!toggle)}} className='bg-green-400 h-10 hover:bg-green-500'>V</button>
+            </>)}
+        },
+    ]
+    const columns = [
+        {
+            name:"Name",
+            selector:row=>row?.name,
+            sortable:true
+        },
+        {
+            name:"Position",
+            selector:row=>row?.position,
+            sortable:true
+        },
+        {
+            name:"Action",
+            button:true,
+            cell:(row)=>{return(<>
+             <EditButton handleClick={()=>{
+              setUpRoomData({
+                  id:row?._id,
+                  name:row?.name,
+                 position:row?.position
+             })
+            OpenEditRoomModal()}}/>
+            <DeleteButton handleClick={()=>{
+                handleRoomDelete(row._id)
+            }}/>
+
+            </>)}
+        },
+    ]
+
   return (
     <div>
         <h1 className='text-3xl uppercase text-red-700'>Venue Page</h1><hr className='h-1 bg-red-900 mb-5 mt-2'/>
       {toggle? <> 
         <input type='search' placeholder='search keyword' value={dfil} onChange={(e)=>setDfil(e.target.value)} className='my-5 sm:w-72'/>
       <div className='flex gap-x-5'>
-            <table className='table-fixed'>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Initials</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        venueData?.map((n)=>{
-                            return <tr key={n._id}>
-                                <td>{n.name}</td>
-                                <td>{n.initials}</td>
-                                <td><EditButton
-                                    handleClick={()=>{
-                                        setUpVenueData({
-                                            id:n._id,
-                                            name:n.name,
-                                            initials:n.initials
-                                        })
-                                        OpenEditVenueModal()
-                                    }}
-                                />
-                                <DeleteButton handleClick={()=>{
-                                    handleDelete(n._id)
-                                }}/>
-                                <button onClick={()=>{
-                                    setSingleData(n)
-                                    setToggle(!toggle)}} className='bg-green-300 h-10'>View</button>
-                                </td>
-                            </tr>
-                        })
-                    }
-                </tbody>
-            </table>
+           <div className='w-full'>
+            <DataTable customStyles={customStyle} columns={Columns} data={venueData} pagination/>
+            </div>
             <EditVenueModal
              CloseModal={CloseEditVenueModal}
              id={upVenueData?.id}
@@ -129,37 +183,7 @@ const Venue = () => {
                 <h1 className='uppercase text-xl text-red-700'>Rooms</h1>
                 <button onClick={()=>OpenAddRoomModal()}>Add Room</button>
             </div>
-            <table className='table-fixed mb-3'>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-               {
-                roomData?.rooms.map((n)=>{
-                    return(
-                        <tr key={n._id}>
-                         <td>{n?.name}</td>
-                         <td className='text-nowrap'>{n?.position}</td>
-                         <td className='flex mt-3 border-none gap-x-3 place-content-center'>
-                            <EditButton handleClick={()=>{
-                                setUpRoomData({
-                                    id:n?._id,
-                                    name:n?.name,
-                                    position:n?.position
-                                })
-                                OpenEditRoomModal()}}/>
-                            <DeleteButton handleClick={()=>handleRoomDelete(n._id)}/>
-                         </td>
-                        </tr>
-                    )
-                })
-               }
-                </tbody>
-            </table>
+            <DataTable customStyles={customStyle} columns={columns} data={roomData?.rooms} pagination/>
           <AddRoomModal CloseModal={CloseAddRoomModal} id={singleData._id}/>
           <EditRoomModal 
           CloseModal={CloseEditRoomModal}
@@ -170,7 +194,7 @@ const Venue = () => {
             <button onClick={()=>{
                 setToggle(!toggle)
                 setSingleData('')
-                }}>Back</button>
+                }} className='mt-5 float-right'>Back</button>
         </div>
         }
     </div>

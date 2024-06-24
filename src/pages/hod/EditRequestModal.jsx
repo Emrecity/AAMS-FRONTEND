@@ -10,7 +10,7 @@ const EditRequestModal = ({closeModal,id,name,description,quantity}) => {
     reset()
   },[name])
 
-const {register,handleSubmit,reset,formState:{isDirty,isValid}}= useForm()
+const {register,handleSubmit,reset,formState:{isDirty}}= useForm()
 const submit = useHodStore((state)=>state.updateRequest)
  
   const onsubmit =(data)=>{
@@ -42,7 +42,7 @@ const submit = useHodStore((state)=>state.updateRequest)
           <input type='number' min={1}  id='quantity' defaultValue={quantity} {...register('quantity')}/>
         </div>
         <div className='flex gap-5 place-content-center mt-4 pb-3'>
-        <button >Update</button>
+        <button disabled={!isDirty} >Update</button>
         <button type='button' onClick={closeModal}>Cancel</button>
         </div>
        </form>

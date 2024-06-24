@@ -21,7 +21,7 @@ const DeleteButton = ({handleClick}) => {
     const HandleFunction = (handleClick? handleClick:confirm)
       
   return (
-    <button className="bg-red-500 hover:bg-red-600 w-auto btn rounded-md text-white"
+    <button className="bg-red-500 hover:bg-red-600 w-10 mx-1 btn rounded-md text-white"
     onClick={HandleFunction}
     >
             <div className="group relative">

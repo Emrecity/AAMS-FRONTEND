@@ -5,6 +5,7 @@ import DeleteButton from '../../components/DeleteButton'
 import EditButton from '../../components/EditButton'
 import {useModalActions} from '../../components/ModalActions'
 import EditDepartmentModal from './EditDepartmentModal'
+import DataTable from 'react-data-table-component';
 
 const Department = () => {
 
@@ -12,11 +13,61 @@ const Department = () => {
   const submit = useDepartmentStore((state)=>state.createDepartment)
   const handleDelete = useDepartmentStore((state)=>state.deleteDepartment)
   const Data = useDepartmentStore((state)=>state.departmentData)
+  const isProcessing = useDepartmentStore((state)=>state.isProcessing)
 
   useEffect(()=>{
     getAllDepartment(),
     Data
   },[])
+
+  const customStyle ={
+    headCells:{
+      style:{
+        fontWeight: "bold",
+        paddingLeft:"10px",
+        fontSize:'18px',
+        marginButton:"3px",
+        borderColor:'red',
+      }
+    },
+    rows:{
+      style:{
+        borderStyle:'solid',
+        borderWidth:'medium',
+        borderTopColor:'#DA8080',
+        textAlign:'left'
+      }
+    }
+
+  }
+
+  const Columns = [
+    {
+      name:'Name',
+      selector:row=>row?.name,
+      sortable:true
+    },
+    {
+      name:'Initials',
+      selector:row=>row?.initials,
+      sortable:true
+    },
+    {
+      name:'Action',
+      button:true,
+      cell:(row)=>{return(<><EditButton handleClick={()=>{
+        setdepData({
+          department:row.name,
+          initials:row.initials,
+          id:row._id
+        })
+        OpenModal()
+      }}/>
+      <DeleteButton handleClick={()=>handleDelete(row._id)}/>
+      
+      </>)}
+    },
+  ]
 
   const [depData,setdepData] = useState({
     id:'',
@@ -34,42 +85,10 @@ const Department = () => {
   return (
     <div>
      <h1 className='text-3xl uppercase text-red-700'>Department Page</h1><hr className='h-1 bg-red-900 mb-5'/>
-     <div className='flex gap-x-5'>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Initials</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            Data?.map((dep)=>{
-              return(
-                <tr key={dep._id}>
-                  <td>{dep.name}</td>
-                  <td>{dep.initials}</td>
-                  <td className='flex gap-x-2 border-none'>
-                   <EditButton handleClick={()=>{
-                    setdepData({
-                      id:dep._id,
-                      department:dep.name,
-                      initials:dep.initials
-                    })
-                    OpenModal()
-                   }}/>
-                    <DeleteButton handleClick={()=>{
-                    handleDelete(dep?._id)
-                  }}/>
-                  </td>
-                </tr>
-              )
-            })
-          }
-         
-        </tbody>
-      </table>
+     <div className='grid grid-cols-3 gap-x-5'>
+      <div className='w-full px-3 col-span-2'>
+      <DataTable progressPending={isProcessing} highlightOnHover columns={Columns} data={Data} pagination customStyles={customStyle}/>
+      </div>
       <EditDepartmentModal closeModal={CloseModal}
        id={depData.id} 
        name={depData.department} 

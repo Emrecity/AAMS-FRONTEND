@@ -7,13 +7,15 @@ import Swal from 'sweetalert2';
 
 export const useUserStore = create((set)=>({
     data:[],
+    UserData:[],
     isProcessing:false,
      async login(data){
         set({isProcessing:true})
        await axios.post('api/v1/login',data)
         .then((res)=>{
             if(res.status === 200){
-                const data =res?.data?.data          
+                const data =res?.data?.data   
+                set({UserData:data})       
                 localStorage.setItem('token', data?.token);
                 localStorage.setItem('role',data?.role);
                 localStorage.setItem('firstname',data?.firstname)

@@ -20,7 +20,7 @@ const Estate = () => {
   return (
     <div className='bg-slate-200 py-10 px-5'>
         <h1 className='text-lg font-semibold'>Estate Manager Page</h1><hr className='h-1 bg-red-700 mb-3'/>
-     {show && <ul className='grid grid-cols-2 sm:grid-cols-4 gap-5 sm:mt-10'>
+     {show && <ul className='grid grid-cols-2 sm:grid-cols-3 gap-5 sm:mt-10'>
 
         <li onClick={()=>{
           setPage('request')
@@ -32,10 +32,10 @@ const Estate = () => {
           setShow(!show)
         }}><Card text='View Audit Form'/></li>
         
-        <li onClick={()=>{
+        {/* <li onClick={()=>{
           setPage('department')
           setShow(!show)
-        }}><Card text='View Department' /></li>
+        }}><Card text='View Department' /></li> */}
 
         <li onClick={()=>{
           setPage('asset')

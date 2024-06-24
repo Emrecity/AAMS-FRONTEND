@@ -27,6 +27,8 @@ const Request = ({ close }) => {
     return n.status ==='pending'
   
   }))
+
+ 
   const handleResponse = async(id,data1)=>{
     if(data1 === 'accept'&& id){
       let data ={status:'accept'}
@@ -125,20 +127,6 @@ const Request = ({ close }) => {
                     })
                   })
               :'loading'}
-              {/* {
-                RequestData.map((item)=>{
-                  number = number+1
-                  return(
-                    <tr>
-                        <td>{number}</td>
-                        <td>{item.name}</td>
-                        <td>{item.description}</td>
-                        <td>{item.quantity}</td>
-                        <td>{item.department}</td>
-                    </tr>
-                  )
-                })
-              } */}
             </tbody>
           </table>
           <button onClick={handlePrint} className='my-5 float-right'>Print</button>
