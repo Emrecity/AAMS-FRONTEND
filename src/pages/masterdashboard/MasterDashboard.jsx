@@ -12,10 +12,10 @@ const MasterDashboard = () => {
   const role = localStorage.getItem('role')
 
   return (
-    <div className='flex sticky bg-slate-100'>
+    <div className='flex sticky bg-slate-100 '>
     {toggle && <SideBar />}
-    <main className='w-full mx-5'>
-     <div className='flex flex-col sm:flex-row  bg-[#DA8080] text-center justify-between sticky top-0 sm:top-2 mb-4 rounded-md px-5'>
+    <main className='w-full mx-5 '>
+     <div className='z-20 flex flex-col sm:flex-row  bg-[#DA8080] text-center justify-between sticky top-0 sm:top-2 mb-4 rounded-md px-5'>
        <section className='flex '>
          <button onClick={() => { setToggle(!toggle) }} className='rounded-sm bg-transparent  mr-2 '><svg width="20px" height="30px" viewBox="0 0 0.6 0.6" xmlns="http://www.w3.org/2000/svg" fill="#000000"><path d="M0.6 0.188H0V0.15h0.6zm0 0.3H0V0.45h0.6zm0 -0.151H0V0.3h0.6z"/></svg></button>
          <h1 className='my-auto text-red-700'><b>Dashboard</b></h1>

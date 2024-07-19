@@ -25,6 +25,100 @@ const request =  requestData.map((item)=>{
   })
 })
 
+const Columns1 = [
+  {
+    name:'First Name',
+    selector:row=>row.firstname,
+    sortable:true
+ },
+  {
+    name:'Middle Name',
+    selector:row=>row.middlename,
+    sortable:true
+ },
+  {
+    name:'Last Name',
+    selector:row=>row.lastname,
+    sortable:true
+ },
+  {
+    name:'Phone',
+    selector:row=>row.phone,
+    sortable:true
+ },
+]
+const Columns2 = [
+  {
+    name:'First Name',
+    selector:row=>row.firstname,
+    sortable:true
+ },
+  {
+    name:'Middle Name',
+    selector:row=>row.middlename,
+    sortable:true
+ },
+  {
+    name:'Last Name',
+    selector:row=>row.lastname,
+    sortable:true
+ },
+  {
+    name:'Phone',
+    selector:row=>row.phone,
+    sortable:true
+ },
+]
+const Columns3 = [
+  {
+    name:'First Name',
+    selector:row=>row.firstname,
+    sortable:true
+ },
+  {
+    name:'Middle Name',
+    selector:row=>row.middlename,
+    sortable:true
+ },
+  {
+    name:'Last Name',
+    selector:row=>row.lastname,
+    sortable:true
+ },
+  {
+    name:'Phone',
+    selector:row=>row.phone,
+    sortable:true
+ },
+]
+const Columns4 = [
+  {
+    name:'Name',
+    selector:row=>row.name,
+    sortable:true
+ },
+  {
+    name:'Description',
+    selector:row=>row.description,
+    sortable:true
+ },
+  {
+    name:'Identification Number',
+    selector:row=>row.identificationNumber,
+    sortable:true
+ },
+  {
+    name:'Department',
+    selector:row=>row.department,
+    sortable:true
+ },
+  {
+    name:'Quantity',
+    selector:row=>row.quantity,
+    sortable:true
+ },
+]
+
   return (
     <>
     <div className='grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-x-3'>
@@ -38,13 +132,17 @@ const request =  requestData.map((item)=>{
       <Card text='Request' number={number}/>
     </div>
     <hr className='h-1 my-5 bg-red-800'/>
-    <DataTable/>
+    <h2 className='text-center underline uppercase text-red-700 mb-4 text-xl'>H.O.Ds</h2>
+    <DataTable columns={Columns1} data={hod}  pagination/>
     <hr className='h-1 my-5 bg-red-800'/>
-    <DataTable/>
+    <h2 className='text-center underline uppercase text-red-700 mb-4 text-xl'>Estate Manager</h2>
+    <DataTable columns={Columns2} data={estate}  pagination/>
     <hr className='h-1 my-5 bg-red-800'/>
-    <DataTable/>
+    <h2 className='text-center underline uppercase text-red-700 mb-4 text-xl'>Admin</h2>
+    <DataTable columns={Columns3} data={admin}  pagination/>
     <hr className='h-1 my-5 bg-red-800'/>
-    <DataTable/>
+    <h2 className='text-center underline uppercase text-red-700 mb-4 text-xl'>Asset</h2>
+    <DataTable columns={Columns4} data={assetData}  pagination/>
     </>
   )
 }
