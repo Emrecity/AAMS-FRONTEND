@@ -45,6 +45,10 @@ const AddStaffModal = ({closeModal}) => {
                 </select>
             </div>
             <div className='flex flex-col gap-y-2 my-3'>
+                <label>Staff ID</label>
+                <input type='text' placeholder='eg.1234567890' maxlength={10} {...register('staffid')}/>
+            </div>
+            <div className='flex flex-col gap-y-2 my-3'>
                 <label>Firstname</label>
                 <input type='text' placeholder='firstname' {...register('firstname')}/>
             </div>
@@ -72,7 +76,7 @@ const AddStaffModal = ({closeModal}) => {
 
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Email</label>
-                <input type='email' placeholder='user@user.com' {...register('email')}/>
+                <input type='email' placeholder='eg. user@user.com' {...register('email')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Office</label>
@@ -87,7 +91,7 @@ const AddStaffModal = ({closeModal}) => {
                     }
                 </select>
             </div>
-            { id !='' && <div className='flex flex-col gap-y-2 my-3 col-span-2'>
+            { id !='' && <div className='flex flex-col gap-y-2 my-3'>
                 <label>Office Room</label>
                 <select className='h-8 rounded-md' {...register('office.1')}>
                     <option value=''>Select Room</option>

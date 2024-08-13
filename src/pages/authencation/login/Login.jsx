@@ -11,7 +11,7 @@ const Login = () => {
 
 
   return (
-    <div className='w-screen h-screen bg-slate-100'>
+    <div className='w-screen h-screen bg-slate-100 text-white'>
         <div  className='pt-32'>
           <form
           onSubmit={handleSubmit(submit)}

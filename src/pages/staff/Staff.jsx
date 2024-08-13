@@ -28,7 +28,8 @@ const Staff = () => {
     gender:'',
     phone:'',
     email:'',
-    office:''
+    office:'',
+    staffid:'',
    })
    const data1 = data.filter((n)=>{
     if(sfilter){
@@ -45,6 +46,7 @@ const Staff = () => {
         </div>
         <table className='my-5'>
             <thead>
+                <th>Staff ID</th>
                 <th>Name</th>
                 <th>Gender</th>
                 <th>Email</th>
@@ -56,6 +58,7 @@ const Staff = () => {
                 {data?
                 data1.map((n)=>{
                return <tr key={n._id}>
+                    <td>{n?.staffid}</td>
                     <td>{n?.title}{' '}{n?.firstname}{' '}{n?.lastname}{' '}{n?.othername}</td>
                     <td>{n?.gender}</td>
                     <td>{n?.email}</td>
@@ -64,6 +67,7 @@ const Staff = () => {
                     <td><EditButton handleClick={()=>{
                         setUpdata({
                             id:n._id,
+                            staffid:n.staffid,
                             title:n.title,
                             firstname:n.firstname,
                             lastname:n.lastname,
@@ -87,6 +91,7 @@ const Staff = () => {
         <AddStaffModal closeModal={CloseModal}/>
         <EditStaffModal closeModal={CloseEditModal}
          id={updata.id}
+         staffid={updata.staffid}
          firstname={updata.firstname}
          lastname={updata.lastname}
          othername={updata.othername}

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import {useHodStore} from '../../controllers/HodStore'
 import { useVenueStore } from '../../controllers/VenueStore'
 
-const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender,phone,office,email}) => {
+const EditStaffModal = ({closeModal,id,staffid,title,firstname,lastname,othername,gender,phone,office,email}) => {
 
     const submit =useHodStore((state)=>state.updateStaff)
     const{register,handleSubmit,reset,watch,formState:{isDirty,isValid}}=useForm()
@@ -13,6 +13,7 @@ const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender
     let realData = data1.find((n)=>n._id===id1)
 
     let onsubmit=(data)=>{
+        data.staffid = (data.staffid !='')? data.staffid:staffid
         data.title = data.title!=''? data.title:title
         data.firstname = (data.firstname!='')? data.firstname:firstname
         data.lastname = (data.lastname!='')? data.lastname:lastname
@@ -44,6 +45,10 @@ const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender
                     <option value='Dr'>Dr</option>
                     <option value='Ing'>Ing</option>
                 </select>
+            </div>
+            <div className='flex flex-col gap-y-2 my-3'>
+                <label>Staff ID</label>
+                <input type='text' placeholder='Staff ID' defaultValue={staffid} {...register('staffid')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Firstname</label>

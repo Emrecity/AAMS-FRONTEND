@@ -65,7 +65,14 @@ const onsumbit=(data)=>{
                 </div>
             <div className='flex flex-col gap-x-2'>
                 <label>Sources of finance</label>
-                <input type='text' className='text-[#5B0101]' defaultValue={finance} {...register('finance')}/>
+                <select {...register('finance')} className="text-[#5B0101] h-10 rounded">
+                <option value={finance}>finance</option>
+                <option value='ngo'>NGOs</option>
+                <option value='university finance'>University Finance</option>
+                <option value='departmental finance'>Departmental Finance</option>
+                <option value='get fund'>GetFund</option>
+
+            </select>
             </div>
             <div className='flex flex-col gap-x-2'>
                 <label>Identification Number</label>
