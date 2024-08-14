@@ -21,6 +21,7 @@ const Staff = () => {
    const [sfilter,SetFilter] = useState()
    const [updata,setUpdata] = useState({
     id:'',
+    staffid:'',
     title:'',
     firstname:'',
     lastname:'',
@@ -46,6 +47,7 @@ const Staff = () => {
         <table className='my-5'>
             <thead>
                 <th>Name</th>
+                <th>Staff ID</th>
                 <th>Gender</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -57,6 +59,7 @@ const Staff = () => {
                 data1.map((n)=>{
                return <tr key={n._id}>
                     <td>{n?.title}{' '}{n?.firstname}{' '}{n?.lastname}{' '}{n?.othername}</td>
+                    <td>{n?.staffid}</td>
                     <td>{n?.gender}</td>
                     <td>{n?.email}</td>
                     <td>{n?.phone}</td>
@@ -64,6 +67,7 @@ const Staff = () => {
                     <td><EditButton handleClick={()=>{
                         setUpdata({
                             id:n._id,
+                            staffid:n.staffid,
                             title:n.title,
                             firstname:n.firstname,
                             lastname:n.lastname,
@@ -87,6 +91,7 @@ const Staff = () => {
         <AddStaffModal closeModal={CloseModal}/>
         <EditStaffModal closeModal={CloseEditModal}
          id={updata.id}
+         staffid={updata.staffid}
          firstname={updata.firstname}
          lastname={updata.lastname}
          othername={updata.othername}

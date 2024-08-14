@@ -65,7 +65,14 @@ const AuditForm = () => {
             }
         <div className='flex flex-col gap-x-2'>
             <label>Sources of finance</label>
-            <input type='text' className='text-[#5B0101]' {...register('finance')}/>
+            <select  className='text-black h-10 rounded-md' {...register('finance')}>
+                <option>---Select-Option---</option>
+                <option value='School fianance'>University Finance</option>
+                <option value='Department fianance'>Department Finance</option>
+                <option value='GetFunds'>GetFunds</option>
+                <option value='N.G.O'>N.G.O</option>
+                <option value='other'>Other</option>
+            </select>
         </div>
         <div className='flex flex-col gap-x-2'>
             <label>Identification Number</label>

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import {useHodStore} from '../../controllers/HodStore'
 import { useVenueStore } from '../../controllers/VenueStore'
 
-const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender,phone,office,email}) => {
+const EditStaffModal = ({closeModal,id,staffid,title,firstname,lastname,othername,gender,phone,office,email}) => {
 
     const submit =useHodStore((state)=>state.updateStaff)
     const{register,handleSubmit,reset,watch,formState:{isDirty,isValid}}=useForm()
@@ -14,6 +14,7 @@ const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender
 
     let onsubmit=(data)=>{
         data.title = data.title!=''? data.title:title
+        data.staffid = (data.staffid !='')? data.staffid:staffid
         data.firstname = (data.firstname!='')? data.firstname:firstname
         data.lastname = (data.lastname!='')? data.lastname:lastname
         data.othername = (data.othername!='')? data.othername:othername
@@ -44,6 +45,10 @@ const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender
                     <option value='Dr'>Dr</option>
                     <option value='Ing'>Ing</option>
                 </select>
+            </div>
+            <div className='flex flex-col gap-y-2 my-3'>
+                <label>Staff ID</label>
+                <input type='text' placeholder='firstname' defaultValue={staffid} {...register('staffid')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Firstname</label>
@@ -89,9 +94,9 @@ const EditStaffModal = ({closeModal,id,title,firstname,lastname,othername,gender
                     }
                 </select>
             </div>
-            { id1 !='' && <div className='flex flex-col gap-y-2 my-3 col-span-2'>
+            { id1 !='' && <div className='flex flex-col gap-y-2 my-3'>
                 <label>Office Room</label>
-                <select className='h-8 rounded-md' {...register('office.1')}>
+                <select className='h-10 rounded-md' {...register('office.1')}>
                     <option value=''>Select Room</option>
                    {
                     realData?.rooms?.map((n)=>{

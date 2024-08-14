@@ -132,10 +132,10 @@ async deleteAudit(id){
             denyButtonText:'No'
         })
         if (swalResponse.isConfirmed){
-            toast.loading('Request is being deleted',{duration:100})
+            toast.loading('Audit is being deleted',{duration:100})
             const Response = await axios.delete(`api/v1/hod/audit/${id}`)
             if(Response?.status == 201 || Response.status === 200){
-                toast.success('Request is deleted successfully')
+                toast.success('Audit is deleted successfully')
             }
           useHodStore.getState().getAllAudit()
     

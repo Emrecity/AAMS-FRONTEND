@@ -5,7 +5,7 @@ import {useHodStore} from '../../controllers/HodStore'
 import { useVenueStore } from '../../controllers/VenueStore'
 
 const AddStaffModal = ({closeModal}) => {
-    const{ register,handleSubmit,watch,reset} = useForm()
+    const{ register,handleSubmit,formState:{errors},watch,reset} = useForm()
     const OnSubmit = useHodStore((state)=>state.createStaff)
     const getAllVenue = useVenueStore((state)=>state.getAllVenue)
     const data1 = useVenueStore((state)=>state.venueData)
@@ -15,6 +15,7 @@ const AddStaffModal = ({closeModal}) => {
     const submit =(data)=>{
         data.office[0] = realData?.name
         data.office = data.office.join('-')
+        console.log(data)
         OnSubmit(data)
         reset()
         realData=''
@@ -36,22 +37,27 @@ const AddStaffModal = ({closeModal}) => {
             <div className='grid sm:grid-cols-2 sm:gap-x-3'>
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Title</label>
-                <select className='h-10 rounded-md' {...register('title')}>
+                <select className='h-10 rounded-md' {...register('title',{required:true})}>
                     <option value='Mr'>Mr</option>
                     <option value='Mrs'>Mrs</option>
                     <option value='Prof'>Prof</option>
                     <option value='Dr'>Dr</option>
                     <option value='Ing'>Ing</option>
                 </select>
+                <small>{errors.title?.message}</small>
+            </div>
+            <div className='flex flex-col gap-y-2 my-3'>
+                <label>Staff ID</label>
+                <input type='text' placeholder='########' minLength={8} maxLength={12} {...register('staffid',{required:true})}/>
             </div>
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Firstname</label>
-                <input type='text' placeholder='firstname' {...register('firstname')}/>
+                <input type='text' placeholder='firstname' {...register('firstname',{required:true})}/>
             </div>
 
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Lastname</label>
-                <input type='text' placeholder='lastname' {...register('lastname')}/>
+                <input type='text' placeholder='lastname' {...register('lastname',{required:true})}/>
             </div>
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Othername</label>
@@ -60,23 +66,23 @@ const AddStaffModal = ({closeModal}) => {
 
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Gender</label>
-                <select className='h-10 rounded-md' {...register('gender')}>
+                <select className='h-10 rounded-md' {...register('gender',{required:true})}>
                     <option value='male'>Male</option>
                     <option value='female'>Female</option>
                 </select>
             </div>
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Phone</label>
-                <input type='tel' placeholder='phone' {...register('phone')}/>
+                <input type='tel' placeholder='phone' {...register('phone',{required:true})}/>
             </div>
 
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Email</label>
-                <input type='email' placeholder='user@user.com' {...register('email')}/>
+                <input type='email' placeholder='user@user.com' {...register('email',{required:true})}/>
             </div>
             <div className='flex flex-col gap-y-2 my-3'>
                 <label>Office</label>
-                <select className='h-10 rounded-md' {...register('office.0')}>
+                <select className='h-10 rounded-md' {...register('office.0',{required:true})}>
                     <option value=''>Select Venue</option>
                     {
                         data1?.map((n)=>{
@@ -87,9 +93,9 @@ const AddStaffModal = ({closeModal}) => {
                     }
                 </select>
             </div>
-            { id !='' && <div className='flex flex-col gap-y-2 my-3 col-span-2'>
+            { id !='' && <div className='flex flex-col gap-y-2 my-3 '>
                 <label>Office Room</label>
-                <select className='h-8 rounded-md' {...register('office.1')}>
+                <select className='h-10 rounded-md' {...register('office.1',{required:true})}>
                     <option value=''>Select Room</option>
                    {
                     realData?.rooms?.map((n)=>{
@@ -101,7 +107,7 @@ const AddStaffModal = ({closeModal}) => {
         </div>
         <div className='flex gap-x-5 place-content-center'>
                 <button>Add</button>
-                <button type='button' onClick={closeModal}>Cancel</button>
+                <button type='button' onClick={()=>{reset(); closeModal()}}>Cancel</button>
         </div>
         </form>
     </Modal>
