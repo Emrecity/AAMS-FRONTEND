@@ -18,6 +18,12 @@ const EditAssetModal = ({closeModal,id,name,description,dateOfPurchase,quantity,
       }))
 
     const OnSubmit = (data)=>{
+        data.name = data.name !=''? data.name: name
+        data.description = data.description != ''? data.description:description
+        data.dateOfPurchase = data.dateOfPurchase !=''?data.dateOfPurchase:dateOfPurchase
+        data.quantity = data.quantity !=''? data.quantity: quantity
+        data.identificationNumber = data.identificationNumber !=''? data.identificationNumber:identificationNumber
+        data.department = data.department !=''?data.department:department1
         submit(id,data)
         closeModal()
     }
@@ -52,15 +58,15 @@ const EditAssetModal = ({closeModal,id,name,description,dateOfPurchase,quantity,
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Date Of Purchase</label>
-                <input type='date' autoComplete={dateOfPurchase} defaultValue={dateOfPurchase} {...register('dateOfPurchase',{isDirty:true,required:'name is required'})}/>
+                <input type='date' autoComplete={dateOfPurchase} defaultValue={dateOfPurchase} {...register('dateOfPurchase')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Quantity</label>
-                <input type='number' autoComplete={quantity} min={1} defaultValue={quantity} {...register('quantity',{isDirty:true,valueAsNumber:true,required:'name is required'})}/>
+                <input type='number' min={1} defaultValue={quantity} {...register('quantity')}/>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Identification Number</label>
-                <input type='text' autoComplete={identificationNumber} placeholder='Enter ID of asset' defaultValue={identificationNumber} {...register('identificationNumber',{isDirty:true,required:'name is required'})}/>
+                <input type='text' autoComplete={identificationNumber} placeholder='Enter ID of asset' defaultValue={identificationNumber} {...register('identificationNumber',)}/>
             </div>
             <div className='flex flex-col gap-y-2 my-4'>
                 <label>Department</label>
@@ -74,7 +80,7 @@ const EditAssetModal = ({closeModal,id,name,description,dateOfPurchase,quantity,
                 </select>
             </div>
             <div className='flex gap-x-3 mt-3 place-content-center'>
-                <button disabled={!isDirty||!isValid}>{isSubmitting?'processing':'Update'}</button>
+                <button>{isSubmitting?'processing':'Update'}</button>
                 <button type='button' onClick={closeModal}>Cancel</button>
             </div>
         </form>
